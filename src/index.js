@@ -19,10 +19,6 @@ server.use(cors());
 server.use(limiter);
 server.use(moviesRouters);
 
-server.get("/", (req, res) => {
-  res.send("eaaaaaaiiiiiiiiiii");
-});
-
 server.listen(process.env.PORT, () =>
   console.log(`Listening on port ${process.env.PORT}`)
 );
