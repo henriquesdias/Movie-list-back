@@ -42,10 +42,30 @@ async function getMoviesBySearch(name, page = "1") {
     throw Error("Error");
   }
 }
+async function getDetails(id) {
+  const URL_BASE = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`;
+  try {
+    const data = await cache.getData(`movie ${id}`);
+    if (data) {
+      return JSON.parse(data);
+    }
+    const response = await fetch(URL_BASE, { method: "GET" });
+    if (!response.ok) {
+      throw Error("Error");
+    }
+    const dataFetch = await response.json();
+    await cache.insertData(`movie ${id}`, JSON.stringify(dataFetch));
+    return dataFetch;
+  } catch (error) {
+    console.log(error);
+    throw Error("Error");
+  }
+}
 
 const moviesServices = {
   getMovies,
   getMoviesBySearch,
+  getDetails,
 };
 
 export default moviesServices;
