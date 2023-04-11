@@ -4,7 +4,9 @@ let redis;
 connectRedis();
 async function connectRedis() {
   try {
-    redis = createClient();
+    redis = createClient({
+      url: process.env.REDIS_URL ? process.env.REDIS_URL : "",
+    });
     await redis.connect();
   } catch (error) {
     console.log(error);
